@@ -23,4 +23,5 @@ Rails.application.routes.draw do
   get'home/about' =>'homes#about'
   get '/search' => 'search#search'
   # get'users' =>'users#index'
+  resources :groups,only: [:index, :new, :create, :show, :edit, :update, :destroy]
   end
