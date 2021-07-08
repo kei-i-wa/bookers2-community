@@ -33,8 +33,8 @@ class User < ApplicationRecord
     followings.include?(user)
   end
   
-  has_many :group_users,dependent: :destroy
-  has_many :groups, through: :group_users, dependent: :destroy
+  has_many :group_users
+  has_many :groups, through: :group_users
   #ユーザーは多くのグループに属します。それらは、group_usersのテーブルから参照できます
   
 end

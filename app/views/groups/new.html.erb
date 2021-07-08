@@ -1,20 +1,8 @@
-<h1>新規作成</h1>
-
-<%= form_with(model: @group, local: true) do |f| %>
-  <div class="group-new-form">
-    <div class="gtoup-new-form-name">
-      <%= f.label :name, 'グループ名' %>
-      <%= f.text_field :name, class: 'form-control' %>
-      <%= f.label :introduction, '紹介文' %>
-      <%= f.text_field :introduction, class:'form-control' %>
- 　<label for="inputImage">Image</label>
-   <div>
-     <%= attachment_image_tag @group, :image, :fill, 60, 60 %>
-  </div>
-  <div>
-    <%= f.attachment_field :image, placeholder: "画像" %>
-  </div>
+<div class='container'>
+  <div class='row'>
+    <div class="col-sm-12 col-md-8 col-lg-5 px-5 px-sm-0 mx-auto">
+      <h3>Create Group</h3>
+              <%= render 'form', group: @group %>
     </div>
-    <%= f.submit '新規作成', class: "btn btn-primary" %>
   </div>
-<% end %>
+</div>

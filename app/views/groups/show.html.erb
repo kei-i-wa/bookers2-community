@@ -1,13 +1,21 @@
-<div class="group-show">
-    <div class="show-group-chat-back">
-        <span class="group-show-group-chat-back">
-            <%= link_to groups_path do %>
-                ＜
-            <% end %>
-        </span>
-    </div>
+<%= render 'users/user_show', users: @users %>
 
-    <div class="chat-group-show-talk">
-        トーク
+
+<!--本の新規投稿-->
+<%= render 'books/book_new', book: @book %>
+
+<div class='col-md-8 offset-md-1'>
+      <h2>Group Detail</h2>
+      <table class='table table-hover table-inverse'>
+        <tr>
+          <td><%= attachment_image_tag(@group, :image, :fill, 50, 50, fallback: "no_image.jpg") %></td>
+          <td><%= @group.name %></td>
+          <td><%= @group.introduction %></td>
+          <td>
+            <% if @group.owner_id == current_user.id %>
+              <%= link_to 'Edit', edit_group_path(@group), class: "btn btn-sm btn-success" %>
+            <% end %>
+          </td>
+        </tr>
+      </table>
     </div>
-</div>

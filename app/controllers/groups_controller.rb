@@ -1,57 +1,52 @@
 class GroupsController < ApplicationController
-    before_action :set_group, only: [:edit, :update]
+  before_action :authenticate_user!
+  before_action :ensure_correct_user, only: [:edit, :update]
 
-    def index
-        @group_lists = Group.all
-        @group_joining = GroupUser.where(user_id: current_user.id)
-        @group_lists_none = "グループに参加していません。"
+  def index
+    @book = Book.new
+    @groups = Group.all
+  end
+
+  def show
+    @book = Book.new
+    @group = Group.find(params[:id])
+  end
+
+  def new
+    @group = Group.new
+  end
+
+  def create
+    @group = Group.new(group_params)
+    @group.owner_id = current_user.id
+    if @group.save
+      redirect_to groups_path
+    else
+      render 'new'
     end
+  end
 
-    def new
-        @group = Group.new
-        @group.users << current_user
+  def edit
+  end
+
+  def update
+    if @group.update(group_params)
+      redirect_to groups_path
+    else
+      render "edit"
     end
+  end
 
-    def create
-        @group = Group.new(group_params)
-        if @group.save
-            redirect_to groups_url, notice: 'グループを作成しました。'
-        else
-            render :new
-        end
+  private
+
+  def group_params
+    params.require(:group).permit(:name, :introduction, :image)
+  end
+
+  def ensure_correct_user
+    @group = Group.find(params[:id])
+    unless @group.owner_id == current_user.id
+      redirect_to groups_path
     end
-
-    def show
-        @group = Group.find(params[:id])
-    end
-
-    def edit
-        @group = Group.find(params[:id])
-    end
-
-    def update
-        @group = Group.find(params[:id])
-        if @group.update(group_params)
-            redirect_to groups_path, notice: 'グループを更新しました。'
-        else
-            render :edit
-        end
-    end
-
-    def destroy
-        delete_group = Group.find(params[:id])
-        if delete_group.destroy
-            redirect_to groups_path, notice: 'グループを削除しました。'
-        end
-    end
-
-    private
-        def set_group
-            @group = Group.find(params[:id])
-        end
-
-        def group_params
-            params.require(:group).permit(:name,:image,:introduction)
-        end
-
+  end
 end
