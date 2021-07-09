@@ -1,0 +1,11 @@
+<div class="mail_form">
+    <h2><%=@group.name %>メンバーへのメール</h2>
+    <%= form_with url: group_send_mail_path(@group),method: :get, local: true do |f| %>
+    <%= f.text_field :mail_title %>
+    <%= f.text_field :mail_content %>
+    <%= f.submit'送信' %>
+    <% end %>
+</div>
+
+
+
